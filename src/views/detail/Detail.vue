@@ -9,7 +9,8 @@
       :probe-type="3"
       @scroll="contentClick"
     >
-      <div>{{ $store.state.cartList }}</div>
+      <!-- 验证是否成功加入购物车 -->
+      <!-- <div>{{ $store.state.cartList }}</div> -->
       <detail-swiper :topImages="topImages" />
       <detail-base-info :goods="goods" />
       <detail-shop-info :shop="shop" />
@@ -22,6 +23,8 @@
     <detail-bottom-bar @addCart="addToCart" />
 
     <back-top @click.native="backClick" v-show="isShow" />
+
+    <!-- <Toast message="窗口" :is-show="true"/> -->
   </div>
 </template>
 
@@ -36,6 +39,7 @@ import DetailCommentInfo from "./childComps/DetailCommentInfo";
 import DetailBottomBar from "./childComps/DetailBottomBar";
 
 import Scroll from "components/common/scroll/Scroll";
+// import Toast from "components/common/toast/Toast"
 import BackTop from "components/content/backTop/BackTop";
 import GoodList from "components/content/goods/GoodList";
 
@@ -49,6 +53,7 @@ import {
 
 import { itemListenerMixin, backTopMixin } from "common/mixin";
 import { debounce } from "common/utils";
+import { mapActions } from "vuex"
 
 export default {
   name: "Detail",
@@ -78,9 +83,11 @@ export default {
     DetailBottomBar,
 
     Scroll,
+    // Toast,
     GoodList,
   },
   methods: {
+    ...mapActions(["addCart"]),
     imageLoad() {
       this.$refs.wrapper.refresh();
 
@@ -124,7 +131,10 @@ export default {
 
       // 2.将商品添加到购物车里
       // this.$store.commit("addCart", product);
-      this.$store.dispatch("addCart", product);
+      this.addCart(product).then(res =>{
+        console.log(res)
+        this.$toast.show(res)
+      })
     },
   },
   mixins: [itemListenerMixin, backTopMixin],

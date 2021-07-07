@@ -43,5 +43,5 @@ main.js  vue项目入口js文件
 
 ## 项目使用到的技术
 ```
-vue-router axios vuex better_scroll（滚动；） 防抖 混入 事件总线
+vue-router、 axios、 vuex 、better_scroll（滚动；）、 防抖、 混入 、事件总线、fastclick解决移动端点击按钮延迟300ms、lazyload图片懒加载
 ```

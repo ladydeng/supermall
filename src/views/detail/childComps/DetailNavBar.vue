@@ -30,11 +30,15 @@ export default {
     NavBar,
   },
   methods:{
+    // 菜单点击
     titleClick(index){
       this.currentIndex = index
 
+      // 发出事件
       this.$emit("titleClick",index)
     },
+
+    // 点击按钮返回首页
     backClick(){
       this.$router.back()
     }

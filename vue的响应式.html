@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vue响应式原理</title>
+</head>
+
+<body>
+
+  <div id="app">
+    {{ msg }}
+    {{ msg }}
+    {{ msg }}
+  </div>
+
+  <script src="./node_modules/vue/dist/vue.js"></script>
+
+  <script>
+    const obj = {
+      msg: "hahaha",
+      name: "ladydeng"
+    }
+
+    Object.keys(obj).forEach(key => {
+      let value = obj[key]
+      //监听劫持obj属性   
+      Object.defineProperty(obj, key, {
+        set(newValue) {
+          console.log("监听" + key + "值的变化")
+          value = newValue
+
+          dep.notify()
+        },
+        get() {
+          console.log("获取" + key + "对应的值")
+          return value
+        }
+      })
+    })
+
+    // 发布者订阅者模式
+    class Dep{
+        constructor(){
+            this.subs = []
+        }
+
+        addSub( watcher){
+            console.log(watcher.name +"被添加到发布者")
+            this.subs.push(watcher)
+        }
+
+        notify(){
+            this.subs.forEach(item => {
+                item.update()
+            })
+        }
+    }
+
+    class Watcher {
+        constructor(name){
+            this.name = name
+        }
+
+        update(){
+            console.log(this.name + "发生更新")
+        }
+    }
+    const dep = new Dep()
+    const w1 = new Watcher("张三")
+    dep.addSub(w1)
+
+    const w2 = new Watcher("李四")
+    dep.addSub(w2)
+
+    const w3 = new Watcher("王五")
+    dep.addSub(w3)
+
+  </script>
+
+
+  <script>
+    const app = new Vue({
+      el: "#app",
+      data: {
+        msg: "hahaha",
+        name: "ladydeng"
+      }
+    })
+
+  </script>
+
+</body>
+
+</html>

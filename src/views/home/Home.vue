@@ -102,6 +102,7 @@ export default {
      */
 
     contentClick(position) {
+      // console.log(position)
       //  1.判断backTop是否显示
       // 当鼠标下滑的位置大于1000时，回到顶部按钮显示
       // -position.y > 1000 ? this.isShow = true : this.isShow = false;

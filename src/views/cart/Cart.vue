@@ -1,24 +1,28 @@
 <template>
   <div class="cart">
-    <nav-bar class="navBar">
+    <nav-bar class="nav-bar">
       <div slot="center">购物车({{ count }})</div>
     </nav-bar>
 
     <cart-list></cart-list>
+
+    <cart-bottom-bar />
   </div>
 </template>
 
 <script>
 import NavBar from "components/common/navbar/NavBar";
-import CartList from "./childComps/CartList"
+import CartList from "./childComps/CartList";
+import CartBottomBar from "./childComps/CartBottomBar"
 
-import { mapGetters } from "vuex"
+import { mapGetters } from "vuex";
 
 export default {
   name: "Cart",
   components: {
     NavBar,
-    CartList
+    CartList,
+    CartBottomBar
   },
   computed: {
     // 把getters转为计算属性的两种方法
@@ -27,15 +31,16 @@ export default {
 
     // 2.对象形式
     ...mapGetters({
-      count:getCount
-    })
-  }
+      count: "getCount",
+    }),
+  },
 };
 </script>
 
 <style scoped>
-.navBar {
+.nav-bar {
   background-color: var(--color-tint);
   color: white;
 }
+
 </style>
